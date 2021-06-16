@@ -60,5 +60,24 @@ namespace BookStore.WebApi.Controllers
 
             return Ok(output);
         }
+
+        // PUT api/<BookController>/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] BookApiRequestModel value)
+        {
+            BookModel book = new() 
+            {
+                Id = id,
+                Title = value.Title,
+                Author = value.Author,
+                PageCount = value.PageCount,
+                Price = value.Price,
+                PublishedDate = value.PublishedDate
+            };
+
+            var ouput = await _bookCommandService.UpdateAsync(book);
+
+            return Ok(ouput);
+        }
     }
 }

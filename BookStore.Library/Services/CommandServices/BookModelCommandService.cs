@@ -23,5 +23,12 @@ namespace BookStore.Library.Services.CommandServices
             await _context.SaveChangesAsync();
             return book;
         }
+
+        public async Task<BookModel> UpdateAsync(BookModel book)
+        {
+            _context.Books.Update(book);
+            await _context.SaveChangesAsync();
+            return book;
+        }
     }
 }

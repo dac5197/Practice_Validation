@@ -38,17 +38,11 @@ namespace BookStore.WebApi.Validators
                 .GreaterThan(0);
 
             // PublishedDate
-            RuleFor(b => b.Author)
+            RuleFor(b => b.PublishedDate)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty()
-                .Must(BeAValidDate).WithMessage("'{PropertyName}' is invalid datetime format.");
+                .NotEmpty();
 
         }
 
-        private bool BeAValidDate(string value)
-        {
-            DateTime date;
-            return DateTime.TryParse(value, out date);
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BookStore.Library.Models;
+using BookStore.Library.Validators;
 using BookStore.Library.Services.CommandServices;
 using BookStore.Library.Services.QueryServices;
 using BookStore.WebApi.ApiRequestModels;
@@ -56,6 +57,8 @@ namespace BookStore.WebApi.Controllers
                 PublishedDate = value.PublishedDate
             };
 
+
+
             var output = await _bookCommandService.CreateAsync(book);
 
             return Ok(output);
@@ -74,6 +77,9 @@ namespace BookStore.WebApi.Controllers
                 Price = value.Price,
                 PublishedDate = value.PublishedDate
             };
+
+            
+
 
             var ouput = await _bookCommandService.UpdateAsync(book);
 

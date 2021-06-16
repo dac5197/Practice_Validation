@@ -32,7 +32,10 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
+                .AddFluentValidation(options => {
+                    options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    options.RegisterValidatorsFromAssemblyContaining<RegisterLibraryAssemblyValidators>();
+                });
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

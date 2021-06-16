@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Library.DataAccess;
+using BookStore.Library.Services.QueryServices;
+using BookStore.Library.Services.CommandServices;
 
 namespace WebApi
 {
@@ -37,6 +39,10 @@ namespace WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
+
+            //Project Service Inferaces
+            services.AddTransient<IBookModelQueryService, BookModelQueryService>();
+            services.AddTransient<IBookModelCommandService, BookModelCommandService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

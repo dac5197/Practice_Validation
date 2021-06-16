@@ -79,5 +79,13 @@ namespace BookStore.WebApi.Controllers
 
             return Ok(ouput);
         }
+
+        // DELETE api/<BookController>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var output = await _bookCommandService.DeleteAsync(id);
+            return output ? Ok() : NotFound();
+        }
     }
 }

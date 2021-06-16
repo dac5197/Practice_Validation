@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using BookStore.Library.DataAccess;
 using BookStore.Library.Services.QueryServices;
 using BookStore.Library.Services.CommandServices;
+using FluentValidation.AspNetCore;
 
 namespace WebApi
 {
@@ -30,7 +31,8 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddMvc()
+                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

@@ -78,9 +78,6 @@ namespace BookStore.WebApi.Controllers
                 PublishedDate = value.PublishedDate
             };
 
-            
-
-
             var ouput = await _bookCommandService.UpdateAsync(book);
 
             return Ok(ouput);

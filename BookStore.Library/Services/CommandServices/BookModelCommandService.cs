@@ -1,12 +1,15 @@
 ﻿using BookStore.Library.DataAccess;
 using BookStore.Library.Models;
 using BookStore.Library.Services.QueryServices;
+using BookStore.Library.Services.ValidatorServices;
 using BookStore.Library.Validators;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BookStore.Library.Services.CommandServices
@@ -15,21 +18,25 @@ namespace BookStore.Library.Services.CommandServices
     {
         private readonly ApplicationDbContext _context;
         private readonly IBookModelQueryService _bookQueryService;
+        private readonly IValidatorService _validatorService;
 
-        public BookModelCommandService(ApplicationDbContext context, IBookModelQueryService bookQueryService)
+        public BookModelCommandService(ApplicationDbContext context, IBookModelQueryService bookQueryService, IValidatorService validatorService)
         {
             _context = context;
             _bookQueryService = bookQueryService;
+            _validatorService = validatorService;
         }
 
         public async Task<BookModel> CreateAsync(BookModel book)
         {
-            BookModelValidator validator = new(_bookQueryService);
-            var validationResults = await validator.ValidateAsync(book);
-            if (!validationResults.IsValid)
-            {
-                throw new ValidationException(validationResults.Errors);
-            }
+            //BookModelValidator validator = new(_bookQueryService);
+            //var validationResults = await validator.ValidateAsync(book);
+            //if (!validationResults.IsValid)
+            //{
+            //    throw new ValidationException(validationResults.Errors);
+            //}
+
+            await _validatorService.ValidateAsync(book);
             await _context.AddAsync(book);
             await _context.SaveChangesAsync();
             return book;
@@ -52,6 +59,7 @@ namespace BookStore.Library.Services.CommandServices
 
         public async Task<BookModel> UpdateAsync(BookModel book)
         {
+            await _validatorService.ValidateAsync(book);
             _context.Books.Update(book);
             await _context.SaveChangesAsync();
             return book;

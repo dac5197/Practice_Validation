@@ -29,5 +29,11 @@ namespace BookStore.Library.Services.QueryServices
             var output = await _context.Books.FindAsync(id);
             return output;
         }
+
+        public async Task<List<BookModel>> GetUntrackedAsync()
+        {
+            var output = await _context.Books.AsNoTracking().ToListAsync();
+            return output;
+        }
     }
 }

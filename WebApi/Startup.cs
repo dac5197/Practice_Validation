@@ -16,6 +16,7 @@ using BookStore.Library.DataAccess;
 using BookStore.Library.Services.QueryServices;
 using BookStore.Library.Services.CommandServices;
 using FluentValidation.AspNetCore;
+using BookStore.Library.Services.ValidatorServices;
 
 namespace WebApi
 {
@@ -48,6 +49,7 @@ namespace WebApi
             //Project Service Inferaces
             services.AddTransient<IBookModelQueryService, BookModelQueryService>();
             services.AddTransient<IBookModelCommandService, BookModelCommandService>();
+            services.AddTransient<IValidatorService, ValidatorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

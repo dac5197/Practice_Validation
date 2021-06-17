@@ -20,13 +20,15 @@ namespace BookStore.Library.Validators
 
             // Title
             RuleFor(b => b.Title)
-                .MustAsync(BeUniqueTitleAsync).WithMessage("'{PropertyName}' title already exists.");
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty().WithMessage("'{PropertyName}' must not be empty (Library).")
+                .MustAsync(BeUniqueTitleAsync).WithMessage("'{PropertyName}' '{PropertyValue}' already exists.");
         }
 
-        private async Task<bool> BeUniqueTitleAsync(string title, CancellationToken cancellationToken)
+        private async Task<bool> BeUniqueTitleAsync(BookModel book, string title, CancellationToken cancellationToken)
         {
-            var books = await _bookQueryService.GetAsync();
-            bool isDuplicateAuthor = books.Where(b => b.Title == title).Any();
+            var books = await _bookQueryService.GetUntrackedAsync();
+            bool isDuplicateAuthor = books.Where(b => b.Title == book.Title).Where(b => b.Id != book.Id).Any();
 
             return !isDuplicateAuthor;
         }

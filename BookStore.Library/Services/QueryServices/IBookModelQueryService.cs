@@ -9,5 +9,6 @@ namespace BookStore.Library.Services.QueryServices
     {
         Task<List<BookModel>> GetAsync();
         Task<BookModel> GetAsync(Guid id);
+        Task<List<BookModel>> GetUntrackedAsync();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using BookStore.Library.DataAccess;
 using BookStore.Library.Models;
 using BookStore.Library.Services.QueryServices;
+using BookStore.Library.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,12 @@ namespace BookStore.Library.Services.CommandServices
 
         public async Task<BookModel> CreateAsync(BookModel book)
         {
+            BookModelValidator validator = new(_bookQueryService);
+            var validationResults = await validator.ValidateAsync(book);
+            if (!validationResults.IsValid)
+            {
+                throw new ValidationException(validationResults.Errors);
+            }
             await _context.AddAsync(book);
             await _context.SaveChangesAsync();
             return book;
